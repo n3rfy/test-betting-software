@@ -11,7 +11,7 @@ class ErrorMessage:
     def to_response(cls) -> Response:
         return JSONResponse(
             status_code=cls.status_code,
-            content=cls.to_content()
+            content=cls.to_content(),
         )
 
     @classmethod

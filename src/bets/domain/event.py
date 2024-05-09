@@ -19,7 +19,7 @@ class Event:
             self,
             id: UUID,
             status: EventStatus,
-            created_at: datetime
+            created_at: datetime,
     ) -> None:
         self._id = id
         self._created_at = created_at

@@ -14,7 +14,7 @@ class GetBetsCommandHandler:
     def __init__(
             self,
             bet_registry: BetRegistry,
-            database_session: DatabaseSession
+            database_session: DatabaseSession,
     ):
         self._bet_registry = bet_registry
         self._database_session = database_session

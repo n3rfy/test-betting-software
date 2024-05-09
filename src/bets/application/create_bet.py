@@ -36,7 +36,7 @@ class CreateBetCommandHandler:
             self,
             bet_registry: BetRegistry,
             event_registry: EventRegistry,
-            database_session: DatabaseSession
+            database_session: DatabaseSession,
     ):
         self._event_registry = event_registry
         self._bet_registry = bet_registry
@@ -46,8 +46,8 @@ class CreateBetCommandHandler:
         async with self._database_session.begin():
             try:
                 event = await self._event_registry.get(id=command.event_id)
-            except EventNotFound:
-                raise EventNotFoundError
+            except EventNotFound as exc:
+                raise EventNotFoundError from exc
             if event.has_final_status():
                 raise EventStatusAlreadyIsFinalError
 
@@ -58,8 +58,8 @@ class CreateBetCommandHandler:
                     created_at=datetime.utcnow(),
                     event=event,
                 )
-            except IncorrectBetAmount:
-                raise IncorrectBetAmountError
+            except IncorrectBetAmount as exc:
+                raise IncorrectBetAmountError from exc
 
             try:
                 await self._bet_registry.add(bet)

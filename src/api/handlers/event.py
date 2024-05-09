@@ -57,8 +57,8 @@ class EventStatusAlreadyIsFinalErrorMessage(ErrorMessage):
             'description': 'Bad Request',
             'content': {
                 'application/json': {
-                    'example': EventStatusAlreadyIsFinalErrorMessage.to_content()
-                }
+                    'example': EventStatusAlreadyIsFinalErrorMessage.to_content(),
+                },
             },
         },
         status.HTTP_500_INTERNAL_SERVER_ERROR: {
@@ -66,7 +66,7 @@ class EventStatusAlreadyIsFinalErrorMessage(ErrorMessage):
             'content': {
                 'application/json': {'example': InternalServerErrorMessage.to_content()},
             },
-        }
+        },
     },
 )
 async def change_event_status(
@@ -80,8 +80,9 @@ async def change_event_status(
             event_status=EVENT_STATUS_MAPPING[request.status],
         )
         await change_status_command_handler.handle(command)
+        return Response(status_code=status.HTTP_200_OK)
     except EventNotFoundError:
-        return Response(status_code=404)
+        return Response(status_code=status.HTTP_404_NOT_FOUND)
     except EventStatusAlreadyIsFinalError:
         return EventStatusAlreadyIsFinalErrorMessage.to_response()
 
@@ -102,8 +103,8 @@ class CreateEventRequest(BaseModel):
             'content': {
                 'application/json': {'example': InternalServerErrorMessage.to_content()},
             },
-        }
-    }
+        },
+    },
 )
 async def create_event(
         request: CreateEventRequest = Body(),

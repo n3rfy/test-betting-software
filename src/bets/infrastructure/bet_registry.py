@@ -1,4 +1,3 @@
-from typing import List
 
 from sqlalchemy import select
 from sqlalchemy.exc import DBAPIError
@@ -20,10 +19,10 @@ class PostgreSQLBetRegistry(BetRegistry):
         try:
             self._database_session.add(bet)
             await self._database_session.flush()
-        except IntegrityError:
-            raise BetAlreadyExists
+        except IntegrityError as exc:
+            raise BetAlreadyExists from exc
 
-    async def get(self) -> List[Bet]:
+    async def get(self) -> list[Bet]:
         try:
             orders = (
                 await self._database_session.execute(statement=select(Bet))

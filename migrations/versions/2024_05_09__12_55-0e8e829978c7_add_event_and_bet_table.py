@@ -1,7 +1,8 @@
-"""Add event and bet table
+"""
+Add event and bet table
 
 Revision ID: 0e8e829978c7
-Revises: 
+Revises:
 Create Date: 2024-05-09 12:55:51.835724
 
 """
@@ -21,7 +22,7 @@ def upgrade() -> None:
         sa.Column('id', sa.UUID(), nullable=False),
         sa.Column('status', sa.Enum('PENDING', 'WIN', 'LOSE', name='eventstatus'), nullable=False),
         sa.Column('created_at', sa.DateTime(), nullable=False),
-        sa.PrimaryKeyConstraint('id')
+        sa.PrimaryKeyConstraint('id'),
     )
     op.create_table(
         'bet',
@@ -29,8 +30,8 @@ def upgrade() -> None:
         sa.Column('event_id', sa.UUID(), nullable=False),
         sa.Column('amount', sa.Numeric(precision=10, scale=2), nullable=False),
         sa.Column('created_at', sa.DateTime(), nullable=False),
-        sa.ForeignKeyConstraint(['event_id'], ['event.id'], ),
-        sa.PrimaryKeyConstraint('id')
+        sa.ForeignKeyConstraint(['event_id'], ['event.id'] ),
+        sa.PrimaryKeyConstraint('id'),
     )
 
 

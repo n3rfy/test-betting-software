@@ -7,10 +7,10 @@ def start_mapper() -> None:
     Base.registry.map_imperatively(
         class_=Event,
         local_table=event_table,
-        properties=dict(
-            _id=event_table.c.id,
-            _created_at=event_table.c.created_at,
-            _status=event_table.c.status,
-        ),
-        always_refresh=True
+        properties={
+            '_id': event_table.c.id,
+            '_created_at': event_table.c.created_at,
+            '_status': event_table.c.status,
+        },
+        always_refresh=True,
     )

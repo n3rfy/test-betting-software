@@ -30,5 +30,5 @@ class PostgreSQLEventRegistry(EventRegistry):
         try:
             self._database_session.add(event)
             await self._database_session.flush()
-        except IntegrityError:
-            raise EventAlreadyExists
+        except IntegrityError as exc:
+            raise EventAlreadyExists from exc

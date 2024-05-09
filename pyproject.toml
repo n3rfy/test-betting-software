@@ -66,6 +66,7 @@ lint.ignore = [
     "PTH123",
     "SIM115",
     "BLE001",
+    "B008",
 ]
 lint.per-file-ignores."tests/**" = [
     "S101",

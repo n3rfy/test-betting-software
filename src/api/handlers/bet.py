@@ -62,8 +62,8 @@ def convert_bets_to_response(bets: list[Bet]) -> GetBetsResponse:
             amount=bet.amount,
             event=GetBetsResponseEvent(
                 id=bet.event.id,
-                status=EVENT_STATUS_MAPPING[bet.event.status]
-            )
+                status=EVENT_STATUS_MAPPING[bet.event.status],
+            ),
         )
         bets_response.append(bet_response)
     return GetBetsResponse(bets=bets_response)
@@ -80,13 +80,13 @@ def convert_bets_to_response(bets: list[Bet]) -> GetBetsResponse:
             'content': {
                 'application/json': {
                     'example': {'example': InternalServerErrorMessage.to_content()},
-                }
+                },
             },
-        }
-    }
+        },
+    },
 )
 async def get_bets(
-        get_bets_command_handler: GetBetsCommandHandler = Depends(GetBetsCommandHandlerStub)
+        get_bets_command_handler: GetBetsCommandHandler = Depends(GetBetsCommandHandlerStub),
 ):
     command = GetBetsCommand()
     bets = await get_bets_command_handler.handle(command)
@@ -124,9 +124,9 @@ class EventNotFoundErrorMessage(ErrorMessage):
                 'application/json': {
                     'example': [
                         EventNotFoundErrorMessage.to_content(),
-                        EventStatusAlreadyIsFinalErrorMessage.to_content()
-                    ]
-                }
+                        EventStatusAlreadyIsFinalErrorMessage.to_content(),
+                    ],
+                },
             },
         },
         status.HTTP_500_INTERNAL_SERVER_ERROR: {
@@ -134,8 +134,8 @@ class EventNotFoundErrorMessage(ErrorMessage):
             'content': {
                 'application/json': {'example': InternalServerErrorMessage.to_content()},
             },
-        }
-    }
+        },
+    },
 )
 async def create_bet(
         request: CreateBetRequest = Body(),

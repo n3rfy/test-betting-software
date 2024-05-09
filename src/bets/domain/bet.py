@@ -3,7 +3,6 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
-from typing import List
 
 from src.bets.domain.event import Event
 
@@ -38,5 +37,5 @@ class BetRegistry(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    async def get(self) -> List[Bet]:
+    async def get(self) -> list[Bet]:
         raise NotImplementedError

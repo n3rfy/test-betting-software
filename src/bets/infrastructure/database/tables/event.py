@@ -1,8 +1,8 @@
+from sqlalchemy import UUID
 from sqlalchemy import Column
 from sqlalchemy import DateTime
 from sqlalchemy import Enum
 from sqlalchemy import Table
-from sqlalchemy import UUID
 
 from src.bets.domain.event import EventStatus
 from src.bets.infrastructure.database.base import Base

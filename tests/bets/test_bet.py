@@ -19,7 +19,7 @@ def test_correct_bet():
             id=UUID('3fa85f64-5717-4562-b3fc-2c963f66afa5'),
             status=EventStatus.PENDING,
             created_at=datetime(2020, 1, 1),
-        )
+        ),
     )
 
     assert bet.id == UUID('3fa85f64-5717-4562-b3fc-2c963f66afa6')
@@ -35,5 +35,5 @@ def test_incorrect_bet_amount():
                 id=UUID('3fa85f64-5717-4562-b3fc-2c963f66afa5'),
                 status=EventStatus.PENDING,
                 created_at=datetime(2020, 1, 1),
-            )
+            ),
         )

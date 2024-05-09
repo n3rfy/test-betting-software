@@ -18,7 +18,7 @@ class CreateEventCommandHandler:
     def __init__(
             self,
             event_registry: EventRegistry,
-            database_session: DatabaseSession
+            database_session: DatabaseSession,
     ):
         self._event_registry = event_registry
         self._database_session = database_session
@@ -28,7 +28,7 @@ class CreateEventCommandHandler:
             event = Event(
                 id=command.event_id,
                 status=EventStatus.PENDING,
-                created_at=datetime.utcnow()
+                created_at=datetime.utcnow(),
             )
             try:
                 await self._event_registry.add(event)

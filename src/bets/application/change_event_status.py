@@ -30,7 +30,7 @@ class ChangeEventStatusCommandHandler:
     def __init__(
             self,
             event_registry: EventRegistry,
-            database_session: DatabaseSession
+            database_session: DatabaseSession,
     ):
         self._event_registry = event_registry
         self._database_session = database_session
@@ -39,8 +39,8 @@ class ChangeEventStatusCommandHandler:
         async with self._database_session.begin():
             try:
                 event = await self._event_registry.get(command.event_id)
-            except EventNotFound:
-                raise EventNotFoundError
+            except EventNotFound as exc:
+                raise EventNotFoundError from exc
             try:
                 if command.event_status is EventStatus.WIN:
                     event.win()
@@ -48,6 +48,6 @@ class ChangeEventStatusCommandHandler:
                     event.lose()
                 else:
                     raise EventStatusIsNotPendingError
-            except StatusAlreadyIsFinal:
-                raise EventStatusAlreadyIsFinalError
+            except StatusAlreadyIsFinal as exc:
+                raise EventStatusAlreadyIsFinalError from exc
             await self._database_session.commit()

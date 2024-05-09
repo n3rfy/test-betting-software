@@ -35,7 +35,7 @@ class DependencyProvider:
     ) -> None:
         self._database_engine = create_async_engine(
             url=database_configuration.dsn,
-            future=True
+            future=True,
         )
 
     def get_database_engine(self):
@@ -43,7 +43,7 @@ class DependencyProvider:
 
     @staticmethod
     async def get_database_session(
-            db_engine: database_engine_stub = Depends()
+            db_engine: database_engine_stub = Depends(),
     ):
         async with DatabaseSession(bind=db_engine) as session:
             yield session
@@ -53,7 +53,7 @@ class DependencyProvider:
             database_session: database_session_stub = Depends(),
     ) -> EventRegistry:
         return PostgreSQLEventRegistry(
-            database_session=database_session
+            database_session=database_session,
         )
 
     @staticmethod
@@ -61,7 +61,7 @@ class DependencyProvider:
             database_session: database_session_stub = Depends(),
     ) -> BetRegistry:
         return PostgreSQLBetRegistry(
-            database_session=database_session
+            database_session=database_session,
         )
 
     @staticmethod
