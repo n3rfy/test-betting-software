@@ -27,3 +27,5 @@ services:
         condition: service_healthy
     environment:
       - DB_DSN=${DB_DSN:-postgresql+asyncpg://test:test@database:6432/bet-maker}
+    ports:
+      - ${DB_PORT:-80}:${DB_PORT:-80}
