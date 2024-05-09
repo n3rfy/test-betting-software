@@ -1,0 +1,29 @@
+version: "3.10"
+
+services:
+  database:
+    container_name: database
+    image: postgres:16
+    ports:
+      - ${DB_PORT:-6432}:${DB_PORT:-6432}
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      - POSTGRES_DB=${DB_DATABASE:-bet-maker}
+      - POSTGRES_USER=${DB_USER:-test}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-test}
+      - PGPORT=${DB_PORT:-6432}
+
+  bet-maker:
+    container_name: bet-maker
+    build:
+      context: ..
+      dockerfile: ./deployment/Dockerfile
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      - DB_DSN=${DB_DSN:-postgresql+asyncpg://test:test@database:6432/bet-maker}
