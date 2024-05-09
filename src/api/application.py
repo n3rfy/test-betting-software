@@ -1,8 +1,10 @@
 import traceback
+from contextlib import asynccontextmanager
 
 import fastapi
 import structlog
 from fastapi.requests import Request
+from sqlalchemy.ext.asyncio import close_all_sessions
 
 from src.api.di import ChangeEventStatusCommandHandlerStub
 from src.api.di import CreateBetCommandHandlerStub
@@ -24,14 +26,14 @@ from src.bets.infrastructure.database.orm.event import start_mapper as start_eve
 logger: structlog.stdlib.BoundLogger = structlog.get_logger()
 
 
-async def startup():
+@asynccontextmanager
+async def lifespan(_: fastapi.FastAPI):
     struct_logging.setup_logging()
     start_bet_mapper()
     start_event_mapper()
     logger.info('APPLICATION_STARTED')
-
-
-async def shutdown():
+    yield
+    await close_all_sessions()
     logger.info('APPLICATION_STOPPED')
 
 
@@ -50,10 +52,8 @@ def create_application(dependency_provider: DependencyProvider) -> fastapi.FastA
     application = fastapi.FastAPI(
         title='Bet Maker',
         version='0.0.1',
+        lifespan=lifespan,
     )
-
-    application.on_event('startup')(startup)
-    application.on_event('shutdown')(shutdown)
 
     application.exception_handler(Exception)(exception_handler)
 
