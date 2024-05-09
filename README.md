@@ -85,7 +85,6 @@ docker compose --project-name test --file deployment/docker-compose.yml up
 | DB_USER              | Имя пользователя базы данных      | test                                                   |
 | DB_PASSWORD          | Пароль пользователя базы данных   | test                                                   |
 | DB_PORT              | Порт базы данных                  | 6432                                                   |
-| DB_DSN               | DSN для подключения к базе данных | postgresql+asyncpg://test:test@database:6432/bet-maker |
 | APPLICATION_PORT     | Порт приложения                   | 80                                                     |
 
 ### Миграции
@@ -93,6 +92,7 @@ docker compose --project-name test --file deployment/docker-compose.yml up
 Установить переменные окружения в терминале и выполнить скрипт для установки миграций.
 
 ```shell
+export DB_DSN=postgresql+asyncpg://test:test@localhost:6432/bet-maker
 alembic upgrade head
 ```
 
