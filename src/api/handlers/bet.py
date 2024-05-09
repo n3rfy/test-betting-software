@@ -1,4 +1,5 @@
 import enum
+from datetime import datetime
 from decimal import Decimal
 from uuid import UUID
 
@@ -42,11 +43,13 @@ EVENT_STATUS_MAPPING = {
 class GetBetsResponseEvent(BaseModel):
     id: UUID
     status: GetBetsResponseEventStatus
+    created_at: datetime
 
 
 class GetBetsResponseItem(BaseModel):
     id: UUID
     amount: Decimal = condecimal(gt=0, decimal_places=2)
+    created_at: datetime
     event: GetBetsResponseEvent
 
 
@@ -60,9 +63,11 @@ def convert_bets_to_response(bets: list[Bet]) -> GetBetsResponse:
         bet_response = GetBetsResponseItem(
             id=bet.id,
             amount=bet.amount,
+            created_at=bet.created_at,
             event=GetBetsResponseEvent(
                 id=bet.event.id,
                 status=EVENT_STATUS_MAPPING[bet.event.status],
+                created_at=bet.event.created_at,
             ),
         )
         bets_response.append(bet_response)

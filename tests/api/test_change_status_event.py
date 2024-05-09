@@ -4,7 +4,7 @@ from httpx import AsyncClient
 
 async def test_correct_change_status_event(
         test_client: AsyncClient,
-        create_trigger_table,
+        create_tables,
 ):
     response = await test_client.post(
         url='events/',
@@ -21,7 +21,7 @@ async def test_correct_change_status_event(
 
 async def test_change_status_event_with_final_status(
         test_client: AsyncClient,
-        create_trigger_table,
+        create_tables,
 ):
     response = await test_client.post(
         url='events/',

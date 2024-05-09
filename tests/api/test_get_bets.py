@@ -4,7 +4,7 @@ from httpx import AsyncClient
 
 async def test_correct_get_bets(
         test_client: AsyncClient,
-        create_trigger_table,
+        create_tables,
 ):
     response = await test_client.get(url='bets/')
     assert response.status_code == httpx.codes.OK

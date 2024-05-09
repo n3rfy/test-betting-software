@@ -4,7 +4,7 @@ from httpx import AsyncClient
 
 async def test_correct_create_bet(
         test_client: AsyncClient,
-        create_trigger_table,
+        create_tables,
 ):
     response = await test_client.post(
         url='events/',
@@ -29,7 +29,7 @@ async def test_correct_create_bet(
 
 async def test_create_bet_without_event(
         test_client: AsyncClient,
-        create_trigger_table,
+        create_tables,
 ):
     response = await test_client.post(
         url='bets/',
@@ -45,7 +45,7 @@ async def test_create_bet_without_event(
 
 async def test_create_bet_on_event_with_final_status(
         test_client: AsyncClient,
-        create_trigger_table,
+        create_tables,
 ):
     response = await test_client.post(
         url='events/',

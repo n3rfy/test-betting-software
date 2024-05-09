@@ -33,6 +33,10 @@ class Event:
     def status(self) -> EventStatus:
         return self._status
 
+    @property
+    def created_at(self) -> datetime:
+        return self._created_at
+
     def has_final_status(self) -> bool:
         if self._status in (EventStatus.WIN, EventStatus.LOSE):
             return True
